@@ -9,7 +9,7 @@ namespace Tutorial023.Sprites
         public Vector2 Velocity;
 
         public Player(Texture2D texture)
-          : base(texture)
+            : base(texture)
         {
         }
 
