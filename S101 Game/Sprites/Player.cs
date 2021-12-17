@@ -22,6 +22,18 @@ namespace Tutorial023.Sprites
 
             if (runForest == true)
                 Velocity.X = 3F;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                if (!(Position.Y <= 0))
+                {
+                    Position.Y -= Velocity.Y;
+                }
+            }
+            else if (Keyboard.GetState().IsKeyUp(Keys.Space) && Position.Y <= 530)
+            {
+                Position.Y += 10f;
+            }
         }
     }
 }
