@@ -65,10 +65,10 @@ namespace Tutorial023
                 {
                   Layer = 0.99f,
                 },
-                new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Floor"), _player, 60f)
-                {
-                  Layer = 0.9f,
-                },
+                //new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Floor"), _player, 60f)
+                //{
+                //  Layer = 0.9f,
+                //},
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Front"), _player, 40f)
                 {
                   Layer = 0.8f,
