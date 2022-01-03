@@ -17,17 +17,19 @@ namespace Tutorial023.Sprites
         {
             bool runForest = false;
 
+            //Start
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                 runForest = true;
 
+            //Vitesse IronBoy
             if (runForest == true)
-                Velocity.X = 3F;
+                Velocity.X = 2F;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 if (!(Position.Y <= 0))
                 {
-                    Position.Y -= Velocity.Y;
+                    Position.Y -= 8f;
                 }
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.Space) && Position.Y <= 530)

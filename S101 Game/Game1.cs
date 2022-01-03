@@ -61,13 +61,13 @@ namespace Tutorial023
 
             _scrollingBackgrounds = new List<ScrollingBackground>()
             {
-                new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Trees"), _player, 60f)
+                new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Floor"), _player, 60f)
                 {
-                  Layer = 0.99f,
+                  Layer = 0.9f,
                 },
-                //new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Floor"), _player, 60f)
+                //new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Trees"), _player, 60f)
                 //{
-                //  Layer = 0.9f,
+                //  Layer = 0.99f,
                 //},
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Front"), _player, 40f)
                 {
