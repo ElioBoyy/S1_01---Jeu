@@ -15,6 +15,8 @@ namespace Tutorial023.Sprites
 
         public override void Update(GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             bool runForest = false;
 
             //Start
@@ -29,7 +31,7 @@ namespace Tutorial023.Sprites
             {
                 if (!(Position.Y <= 0))
                 {
-                    Position.Y -= 8f;
+                    Position.Y -= 8f;     
                 }
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.Space) && Position.Y <= 530)

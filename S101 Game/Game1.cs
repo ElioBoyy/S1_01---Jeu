@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Tutorial023.Misc;
 using Tutorial023.Sprites;
+using System;
 
 namespace Tutorial023
 {
@@ -51,11 +52,12 @@ namespace Tutorial023
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var boyTexture = Content.Load<Texture2D>("boy");
+            var IDLE = Content.Load<Texture2D>("IDLE");
+            var boyTexture = Content.Load<Texture2D>("Boy1");
 
             _player = new Player(boyTexture)
             {
-                Position = new Vector2(50, (ScreenHeight - boyTexture.Height) - 20),
+                Position = new Vector2(50, (ScreenHeight - boyTexture.Height) - 60),
                 Layer = 1f,
             };
 
@@ -116,6 +118,8 @@ namespace Tutorial023
 
             foreach (var sb in _scrollingBackgrounds)
                 sb.Update(gameTime);
+
+            Console.WriteLine(gameTime);
 
             base.Update(gameTime);
         }
