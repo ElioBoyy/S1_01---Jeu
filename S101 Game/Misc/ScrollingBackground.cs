@@ -8,8 +8,6 @@ namespace Tutorial023.Misc
 {
     public class ScrollingBackground : Component
     {
-        private float scrollingSpeed;
-
         private float _speedUp = 1f;
 
         private bool _constantSpeed;
@@ -37,10 +35,7 @@ namespace Tutorial023.Misc
         }
 
         public ScrollingBackground(Texture2D texture, Player player, float scrollingSpeed, bool constantSpeed = false)
-          : this(new List<Texture2D>() { texture, texture }, player, scrollingSpeed, constantSpeed)
-        {
-
-        }
+          : this(new List<Texture2D>() { texture, texture }, player, scrollingSpeed, constantSpeed) {}
 
         public ScrollingBackground(List<Texture2D> textures, Player player, float scrollingSpeed, bool constantSpeed = false)
         {
