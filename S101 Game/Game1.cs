@@ -18,6 +18,9 @@ namespace Tutorial023
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
 
+        private float _speedUp = 1.1f;
+        private float _floor = 0.9f;
+
         private List<ScrollingBackground> _scrollingBackgrounds;
 
         private Player _player;
@@ -52,7 +55,6 @@ namespace Tutorial023
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var IDLE = Content.Load<Texture2D>("IDLE");
             var boyTexture = Content.Load<Texture2D>("Boy1");
 
             _player = new Player(boyTexture)
@@ -65,12 +67,8 @@ namespace Tutorial023
             {
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Floor"), _player, 60f)
                 {
-                  Layer = 0.9f,
+                  Layer = _floor,
                 },
-                //new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Trees"), _player, 60f)
-                //{
-                //  Layer = 0.99f,
-                //},
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Front"), _player, 40f)
                 {
                   Layer = 0.8f,
@@ -86,10 +84,6 @@ namespace Tutorial023
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Back"), _player, 0f)
                 {
                   Layer = 0.77f,
-                },
-                new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Clouds_Slow"), _player, 10f, true)
-                {
-                  Layer = 0.7f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Sky"), _player, 0f)
                 {
@@ -117,9 +111,9 @@ namespace Tutorial023
             _player.Update(gameTime);
 
             foreach (var sb in _scrollingBackgrounds)
+            {
                 sb.Update(gameTime);
-
-            Console.WriteLine(gameTime);
+            }
 
             base.Update(gameTime);
         }
