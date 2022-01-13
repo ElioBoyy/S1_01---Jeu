@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using Tutorial023.Sprites;
+using S101_Game.Sprites;
 
-namespace Tutorial023.Misc
+namespace S101_Game.Misc
 {
     public class ScrollingBackground : Component
     {
@@ -60,7 +60,7 @@ namespace Tutorial023.Misc
 
         public override void Update(GameTime gameTime)
         {
-            _speedUp += 0.001f;
+            _speedUp += 0.002f; //Coef d'accélération du perso
 
             ApplySpeed(gameTime);
 

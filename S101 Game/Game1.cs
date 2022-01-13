@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using Tutorial023.Misc;
-using Tutorial023.Sprites;
+using S101_Game.Misc;
+using S101_Game.Sprites;
 using System;
+using System.Collections.Generic;
 
-namespace Tutorial023
+namespace S101_Game
 {
     /// <summary>
     /// This is the main type for your game.
@@ -20,6 +20,8 @@ namespace Tutorial023
 
         private List<ScrollingBackground> _scrollingBackgrounds;
 
+        private Zapper _zapper;
+        private Rocket _rocket;
         private Player _player;
 
         public Game1()
@@ -53,6 +55,8 @@ namespace Tutorial023
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             var boyTexture = Content.Load<Texture2D>("Boy1");
+            var zapperTexture = Content.Load<Texture2D>("Trap/Zapper");
+            var rocketTexture = Content.Load<Texture2D>("Trap/Rocket");
 
             _player = new Player(boyTexture)
             {
@@ -60,31 +64,43 @@ namespace Tutorial023
                 Layer = 1f,
             };
 
+            _zapper = new Zapper(zapperTexture)
+            {
+                Position = new Vector2(1280, 360),
+                Layer = 1f,
+            };
+
+            _rocket = new Rocket(rocketTexture)
+            {
+                Position = new Vector2(1280, 360),
+                Layer = 1f,
+            };
+
             _scrollingBackgrounds = new List<ScrollingBackground>()
             {
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Floor"), _player, 60f)
                 {
-                  Layer = 0.9f,
+                    Layer = 0.9f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Front"), _player, 40f)
                 {
-                  Layer = 0.8f,
+                    Layer = 0.8f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Middle"), _player, 30f)
                 {
-                  Layer = 0.79f,
+                    Layer = 0.79f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Clouds_Fast"), _player, 25f, true)
                 {
-                  Layer = 0.78f,
+                    Layer = 0.78f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Back"), _player, 0f)
                 {
-                  Layer = 0.77f,
+                    Layer = 0.77f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Sky"), _player, 0f)
                 {
-                  Layer = 0.1f,
+                    Layer = 0.1f,
                 },
             };
         }
@@ -106,8 +122,10 @@ namespace Tutorial023
         protected override void Update(GameTime gameTime)
         {
             _player.Update(gameTime);
+            _zapper.Update(gameTime); //update Zapper
+            _rocket.Update(gameTime); //update Rocket
 
-            foreach (var sb in _scrollingBackgrounds)
+            foreach (var sb in _scrollingBackgrounds) //update background
             {
                 sb.Update(gameTime);
             }
@@ -125,6 +143,8 @@ namespace Tutorial023
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
 
+            _zapper.Draw(gameTime, spriteBatch);
+            _rocket.Draw(gameTime, spriteBatch);
             _player.Draw(gameTime, spriteBatch);
 
             foreach (var sb in _scrollingBackgrounds)

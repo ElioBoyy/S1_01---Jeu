@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tutorial023
+namespace S101_Game
 {
     /// <summary>
     /// The main class.

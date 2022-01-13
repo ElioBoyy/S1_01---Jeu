@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Tutorial023.Sprites
+namespace S101_Game.Sprites
 {
     public class Sprite : Component
     {
@@ -35,7 +35,7 @@ namespace Tutorial023.Sprites
 
         public override void Update(GameTime gameTime)
         {
-
+  
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

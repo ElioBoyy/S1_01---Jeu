@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace Tutorial023.Sprites
+namespace S101_Game.Sprites
 {
     public class Player : Sprite
     {
@@ -19,29 +19,29 @@ namespace Tutorial023.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            bool runForest = false;
+            //bool runForest = false;
             float jetpackPower = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (Position.Y >= 594) { Math.Abs(_flyingSpeed); _flyingSpeed = 1f; }
+            if (Position.Y >= 594) { Math.Abs(_flyingSpeed); _flyingSpeed = 1f; } //Reset sol
 
-            //Start
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                runForest = true;
+            ////Start
+            //if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            //    runForest = true;
 
-            //Vitesse IronBoy
-            if (runForest == true)
+            ////Vitesse IronBoy
+            //if (runForest == true)
                 Velocity.X = 1F;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 if (Position.Y <= 0)
                 {
-                    Position.Y = 0.1f;
+                    Position.Y = 0.1f; //bornage
                     _flyingSpeed = 0f;
                 }
                 else
                 {
-                    Position.Y -= _flyingSpeed;
+                    Position.Y -= _flyingSpeed; //poussée jetpack
                     _flyingSpeed += _increaser;
                 }
             }
@@ -50,19 +50,20 @@ namespace Tutorial023.Sprites
                 if (Position.Y <= 595)
                 {
                     Position.Y -= _flyingSpeed;
-                    _flyingSpeed -= _increaser * 3;
+                    _flyingSpeed -= _increaser * 3; //Gravité, n* le coef de poussée (augmente avec le temps | peut être constant avec un réel)
                 }
                 else { Position.Y = 602; }
                 if (Position.Y <= 0)
                 {
-                    Position.Y = 0.1f;
+                    Position.Y = 0.1f; //bornage
                     _flyingSpeed = 0f;
                 }
             }
 
-            _increaser += jetpackPower / 10000;
+            //Pas pour l'accélération de poussée du jetpack
+            _increaser += jetpackPower / 1000;
 
-
+            //Vérif console
             Console.WriteLine(_flyingSpeed + "   " + Position.Y + "   " + _increaser);
         }
     }
