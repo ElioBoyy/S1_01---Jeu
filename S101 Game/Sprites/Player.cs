@@ -9,7 +9,7 @@ namespace S101_Game.Sprites
     {
         public Vector2 Velocity;
 
-        private float _flyingSpeed = 1;
+        private float _flyingSpeed = 1f;
         private float _increaser = 0.15f;
 
         public Player(Texture2D texture)

@@ -23,17 +23,6 @@ namespace S101_Game.Sprites
             origin = new Vector2(_texture.Width / 2, _texture.Height / 2); //centrer la rocket
 
             Position.X -= _initSpeed;
-
-            if (Position.X > 50)
-            {
-
-            }
-
-            if (Position.X + _texture.Width < 0) //condition reset zapper
-            {
-                Position = new Vector2(1280, 360);
-            }
-
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

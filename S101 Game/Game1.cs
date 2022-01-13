@@ -24,6 +24,10 @@ namespace S101_Game
         private Rocket _rocket;
         private Player _player;
 
+        public Texture2D rocketTexture;
+        public float _flyingSpeedY = 0f;
+        public float _increaser = 0.1f;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -56,7 +60,7 @@ namespace S101_Game
 
             var boyTexture = Content.Load<Texture2D>("Boy1");
             var zapperTexture = Content.Load<Texture2D>("Trap/Zapper");
-            var rocketTexture = Content.Load<Texture2D>("Trap/Rocket");
+            rocketTexture = Content.Load<Texture2D>("Trap/Rocket");
 
             _player = new Player(boyTexture)
             {
@@ -125,6 +129,23 @@ namespace S101_Game
             _zapper.Update(gameTime); //update Zapper
             _rocket.Update(gameTime); //update Rocket
 
+            if (_rocket.Position.X + rocketTexture.Width < 0) //condition reset rocket
+            {
+                _rocket.Position = new Vector2(1280, 360);
+                _flyingSpeedY = 0;
+            }
+
+            if (_rocket.Position.Y <= _player.Position.Y - _rocket.Position.Y)
+            {
+                _flyingSpeedY += _increaser;
+                _rocket.Position.Y += _flyingSpeedY;
+            }
+            else
+            {
+                _flyingSpeedY -= _increaser;
+                _rocket.Position.Y += _flyingSpeedY;
+            }
+
             foreach (var sb in _scrollingBackgrounds) //update background
             {
                 sb.Update(gameTime);
@@ -146,7 +167,7 @@ namespace S101_Game
             _player.Draw(gameTime, spriteBatch);
             _zapper.Draw(gameTime, spriteBatch);
             _rocket.Draw(gameTime, spriteBatch);
-            
+
 
             foreach (var sb in _scrollingBackgrounds)
                 sb.Draw(gameTime, spriteBatch);
