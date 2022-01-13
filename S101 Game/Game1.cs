@@ -143,9 +143,10 @@ namespace S101_Game
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
 
+            _player.Draw(gameTime, spriteBatch);
             _zapper.Draw(gameTime, spriteBatch);
             _rocket.Draw(gameTime, spriteBatch);
-            _player.Draw(gameTime, spriteBatch);
+            
 
             foreach (var sb in _scrollingBackgrounds)
                 sb.Draw(gameTime, spriteBatch);
