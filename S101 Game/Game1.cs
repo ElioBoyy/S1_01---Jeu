@@ -22,11 +22,10 @@ namespace S101_Game
 
         private Zapper _zapper;
         private Rocket _rocket;
+        private Warning _warning;
         private Player _player;
 
-        public Texture2D rocketTexture;
-        public float _flyingSpeedY = 0f;
-        public float _increaser = 0.1f;
+        public float _rocketCoefDir;
 
         public Game1()
         {
@@ -60,7 +59,8 @@ namespace S101_Game
 
             var boyTexture = Content.Load<Texture2D>("Boy1");
             var zapperTexture = Content.Load<Texture2D>("Trap/Zapper");
-            rocketTexture = Content.Load<Texture2D>("Trap/Rocket");
+            var rocketTexture = Content.Load<Texture2D>("Trap/Rocket");
+            var warningTexture = Content.Load<Texture2D>("Warning");
 
             _player = new Player(boyTexture)
             {
@@ -76,7 +76,13 @@ namespace S101_Game
 
             _rocket = new Rocket(rocketTexture)
             {
-                Position = new Vector2(1280, 360),
+                Position = new Vector2(1280 * 2, 360),
+                Layer = 1f,
+            };
+
+            _warning = new Warning(warningTexture)
+            {
+                Position = new Vector2(1200, 360),
                 Layer = 1f,
             };
 
@@ -128,22 +134,22 @@ namespace S101_Game
             _player.Update(gameTime);
             _zapper.Update(gameTime); //update Zapper
             _rocket.Update(gameTime); //update Rocket
+            _warning.Update(gameTime); //update warning rocket
 
-            if (_rocket.Position.X + rocketTexture.Width < 0) //condition reset rocket
-            {
-                _rocket.Position = new Vector2(1280, 360);
-                _flyingSpeedY = 0;
-            }
+            _rocketCoefDir = ((_player.Position.Y - _rocket.Position.Y) / (_rocket.Position.X - 128 - _rocket.Position.X)) * 4;
+            if (_rocketCoefDir > 3)
+                _rocketCoefDir = 3;
+            _rocket.Position.Y -= _rocketCoefDir;
 
-            if (_rocket.Position.Y <= _player.Position.Y - _rocket.Position.Y)
+            _warning.Position.Y = _rocket.Position.Y;
+
+            if (_rocket.Position.X > _warning.Position.X)
             {
-                _flyingSpeedY += _increaser;
-                _rocket.Position.Y += _flyingSpeedY;
+                _warning.Position.X = 1200;
             }
             else
             {
-                _flyingSpeedY -= _increaser;
-                _rocket.Position.Y += _flyingSpeedY;
+                _warning.Position.X = 1350;
             }
 
             foreach (var sb in _scrollingBackgrounds) //update background
@@ -167,7 +173,7 @@ namespace S101_Game
             _player.Draw(gameTime, spriteBatch);
             _zapper.Draw(gameTime, spriteBatch);
             _rocket.Draw(gameTime, spriteBatch);
-
+            _warning.Draw(gameTime, spriteBatch);
 
             foreach (var sb in _scrollingBackgrounds)
                 sb.Draw(gameTime, spriteBatch);

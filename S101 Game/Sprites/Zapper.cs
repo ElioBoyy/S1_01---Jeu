@@ -30,11 +30,11 @@ namespace S101_Game.Sprites
 
             _initSpeed += _speedUp; //tarer la vitesse du zapper sur la vitesse du sol
 
-            if (Position.X + _texture.Width / 2 < 0) //condition reset zapper
+            if (Position.X + _texture.Width * 2 < 0) //condition reset zapper
             {
                 Random _random = new Random();
                 randomPositionY = _random.Next(_texture.Height / 2, 720 - _texture.Height / 2 - 60);
-                Position += new Vector2(1280 + _texture.Width, 0);
+                Position += new Vector2(1280 + _texture.Width * 4, 0);
                 Position.Y = randomPositionY;
             }
 
