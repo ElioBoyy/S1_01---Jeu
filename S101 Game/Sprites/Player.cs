@@ -19,18 +19,11 @@ namespace S101_Game.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            //bool runForest = false;
             float jetpackPower = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (Position.Y >= 594) { Math.Abs(_flyingSpeed); _flyingSpeed = 1f; } //Reset sol
 
-            ////Start
-            //if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-            //    runForest = true;
-
-            ////Vitesse IronBoy
-            //if (runForest == true)
-                Velocity.X = 1F;
+            Velocity.X = 1F;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
@@ -62,9 +55,6 @@ namespace S101_Game.Sprites
 
             //Pas pour l'accélération de poussée du jetpack
             _increaser += jetpackPower / 1000;
-
-            //Vérif console
-            Console.WriteLine(_flyingSpeed + "   " + Position.Y + "   " + _increaser);
         }
     }
 }

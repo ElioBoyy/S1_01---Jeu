@@ -4,6 +4,7 @@ using S101_Game.Misc;
 using S101_Game.Sprites;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
 
 namespace S101_Game
 {
@@ -24,6 +25,11 @@ namespace S101_Game
         private Rocket _rocket;
         private Warning _warning;
         private Player _player;
+
+        private Texture2D boyTexture;
+        private Texture2D zapperTexture;
+        private Texture2D rocketTexture;
+        private Texture2D warningTexture;
 
         public float _rocketCoefDir;
 
@@ -57,14 +63,14 @@ namespace S101_Game
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var boyTexture = Content.Load<Texture2D>("Boy1");
-            var zapperTexture = Content.Load<Texture2D>("Trap/Zapper");
-            var rocketTexture = Content.Load<Texture2D>("Trap/Rocket");
-            var warningTexture = Content.Load<Texture2D>("Warning");
+            boyTexture = Content.Load<Texture2D>("Boy1");//load player
+            zapperTexture = Content.Load<Texture2D>("Trap/Zapper");//load Zapper
+            rocketTexture = Content.Load<Texture2D>("Trap/Rocket");//load Rocket
+            warningTexture = Content.Load<Texture2D>("Warning");//load Warning
 
             _player = new Player(boyTexture)
             {
-                Position = new Vector2(50, (ScreenHeight - boyTexture.Height) - 60),
+                Position = new Vector2(50, ScreenHeight - boyTexture.Height - 60),
                 Layer = 1f,
             };
 
@@ -131,19 +137,21 @@ namespace S101_Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            _player.Update(gameTime);
+            _player.Update(gameTime); //update Player
             _zapper.Update(gameTime); //update Zapper
             _rocket.Update(gameTime); //update Rocket
             _warning.Update(gameTime); //update warning rocket
 
-            _rocketCoefDir = ((_player.Position.Y - _rocket.Position.Y) / (_rocket.Position.X - 128 - _rocket.Position.X)) * 4;
-            if (_rocketCoefDir > 3)
+            _rocketCoefDir = ((_player.Position.Y - _rocket.Position.Y) / (_rocket.Position.X - 128 - _rocket.Position.X)) * 4; //Rocket suit le Joueur (méthode smooth)
+
+            if (_rocketCoefDir > 3) //si coef dir trop élevé: bloque à 3x
                 _rocketCoefDir = 3;
+
             _rocket.Position.Y -= _rocketCoefDir;
 
-            _warning.Position.Y = _rocket.Position.Y;
+            _warning.Position.Y = _rocket.Position.Y; //warning rocket en approche
 
-            if (_rocket.Position.X > _warning.Position.X)
+            if (_rocket.Position.X > _warning.Position.X + 100) //Avertissement rocket
             {
                 _warning.Position.X = 1200;
             }
@@ -155,6 +163,16 @@ namespace S101_Game
             foreach (var sb in _scrollingBackgrounds) //update background
             {
                 sb.Update(gameTime);
+            }
+
+            if (_player.Rectangle.Intersects(_rocket.Rectangle))
+            {
+
+            }
+            if (_player.Rectangle.Intersects(_zapper.Rectangle))
+            {
+                _rocket._initSpeed = 0;
+                _zapper._initSpeed = 0; _zapper._speedUp = 0;
             }
 
             base.Update(gameTime);

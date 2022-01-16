@@ -24,7 +24,7 @@ namespace S101_Game.Sprites
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);//borne les images
             }
         }
 
@@ -40,7 +40,7 @@ namespace S101_Game.Sprites
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position, null, Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.None, Layer);
+            spriteBatch.Draw(_texture, Position, null, Color.White, 0, new Vector2(0, 0), 1f, SpriteEffects.None, Layer);//draw le fond d'écran avec tous les parametres
         }
     }
 }

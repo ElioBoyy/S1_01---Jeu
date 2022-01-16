@@ -10,11 +10,7 @@ namespace S101_Game.Misc
     {
         private float _speedUp = 1f;
 
-        private bool _constantSpeed;
-
         private float _layer;
-
-        private float _scrollingSpeed;
 
         private List<Sprite> _sprites;
 
@@ -52,10 +48,6 @@ namespace S101_Game.Misc
                     Position = new Vector2(i * texture.Width - Math.Min(i, i + 1), Game1.ScreenHeight - texture.Height),
                 });
             }
-
-            _scrollingSpeed = scrollingSpeed;
-
-            _constantSpeed = constantSpeed;
         }
 
         public override void Update(GameTime gameTime)
@@ -63,38 +55,15 @@ namespace S101_Game.Misc
             _speedUp += 0.002f; //Coef d'accélération du perso
 
             ApplySpeed(gameTime);
-
-            CheckPosition();
         }
 
         private void ApplySpeed(GameTime gameTime)
         {
-            _speed = (float)(_scrollingSpeed * gameTime.ElapsedGameTime.TotalSeconds);
-
-            if (!_constantSpeed || _player.Velocity.X > 0)
-                _speed *= _player.Velocity.X * _speedUp;
+            _speed = (float)(gameTime.ElapsedGameTime.TotalSeconds);
 
             foreach (var sprite in _sprites)
             {
                 sprite.Position.X -= _speed;
-            }
-        }
-
-        private void CheckPosition()
-        {
-            for (int i = 0; i < _sprites.Count; i++)
-            {
-                var sprite = _sprites[i];
-
-                if (sprite.Rectangle.Right <= 0)
-                {
-                    var index = i - 1;
-
-                    if (index < 0)
-                        index = _sprites.Count - 1;
-
-                    sprite.Position.X = _sprites[index].Rectangle.Right - (_speed * 2);
-                }
             }
         }
 

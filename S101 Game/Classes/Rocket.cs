@@ -23,9 +23,12 @@ namespace S101_Game.Sprites
         {
             origin = new Vector2(_texture.Width / 2, _texture.Height / 2); //centrer la rocket
 
-            Position.Y += (float)Math.Cos(Position.X / 70) * 10f; //rocket vacillante
+            Random ran = new Random();
+            int random = ran.Next(2, 6);
 
-            if (Position.X <= - 1280 * 2)
+            Position.Y += (float)Math.Cos(Position.X / 60) * 5; //rocket vacillante - mouvement 
+
+            if (Position.X <= - 1280 * random)
             {
                 Position.X = 1280 * 2 + _texture.Width;
             }

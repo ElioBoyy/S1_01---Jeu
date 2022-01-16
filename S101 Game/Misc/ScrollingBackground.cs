@@ -60,7 +60,7 @@ namespace S101_Game.Misc
 
         public override void Update(GameTime gameTime)
         {
-            _speedUp += 0.002f; //Coef d'accélération du perso
+            _speedUp += 0.002f; //Coef d'accélération du perso (le background)
 
             ApplySpeed(gameTime);
 
