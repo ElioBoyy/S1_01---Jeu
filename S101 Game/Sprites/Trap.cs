@@ -14,8 +14,6 @@ namespace S101_Game.Misc
 
         private List<Sprite> _sprites;
 
-        private readonly Player _player;
-
         private float _speed;
 
         public float Layer
@@ -27,26 +25,6 @@ namespace S101_Game.Misc
 
                 foreach (var sprite in _sprites)
                     sprite.Layer = _layer;
-            }
-        }
-
-        public Trap(Texture2D texture, Player player, float scrollingSpeed, bool constantSpeed = false)
-          : this(new List<Texture2D>() { texture, texture }, player, scrollingSpeed, constantSpeed) {}
-
-        public Trap(List<Texture2D> textures, Player player, float scrollingSpeed, bool constantSpeed = false)
-        {
-            _player = player;
-
-            _sprites = new List<Sprite>();
-
-            for (int i = 0; i < textures.Count; i++)
-            {
-                var texture = textures[i];
-
-                _sprites.Add(new Sprite(texture)
-                {
-                    Position = new Vector2(i * texture.Width - Math.Min(i, i + 1), Game1.ScreenHeight - texture.Height),
-                });
             }
         }
 

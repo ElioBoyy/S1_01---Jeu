@@ -31,6 +31,19 @@ namespace S101_Game
         private Texture2D rocketTexture;
         private Texture2D warningTexture;
 
+        private Sectors _sectorsA;
+        private Sectors _sectorsB;
+        private Sectors _sectorsC;
+        private Sectors _sectorsD;
+
+        private Texture2D sectorA;
+        private Texture2D sectorB;
+        private Texture2D sectorC;
+        private Texture2D sectorD;
+
+        private FontApply _font;
+        private SpriteFont font;
+
         public float _rocketCoefDir;
 
         public Game1()
@@ -68,51 +81,92 @@ namespace S101_Game
             rocketTexture = Content.Load<Texture2D>("Trap/Rocket");//load Rocket
             warningTexture = Content.Load<Texture2D>("Warning");//load Warning
 
-            _player = new Player(boyTexture)
+            sectorA = Content.Load<Texture2D>("Sectors/SectorA");
+            sectorB = Content.Load<Texture2D>("Sectors/SectorB");
+            sectorC = Content.Load<Texture2D>("Sectors/SectorC");
+            sectorD = Content.Load<Texture2D>("Sectors/SectorD");
+
+            font = Content.Load<SpriteFont>("fontScore");
+
+            _font = new FontApply(font)
             {
-                Position = new Vector2(50, ScreenHeight - boyTexture.Height - 60),
+                Position = new Vector2(0, 0),
                 Layer = 1f,
             };
 
+            //Init Sectors
+            _sectorsA = new Sectors(sectorA)
+            {
+                Position = new Vector2(-150, 0),
+                Layer = 0.54f,
+            };
+
+            _sectorsB = new Sectors(sectorB)
+            {
+                Position = new Vector2(-150, 0),
+                Layer = 0.53f,
+            };
+
+            _sectorsC = new Sectors(sectorC)
+            {
+                Position = new Vector2(-150, 0),
+                Layer = 0.52f,
+            };
+
+            _sectorsD = new Sectors(sectorD)
+            {
+                Position = new Vector2(-150, 0),
+                Layer = 0.51f,
+            };
+
+            //init player
+            _player = new Player(boyTexture)
+            {
+                Position = new Vector2(50, ScreenHeight - boyTexture.Height - 60),
+                Layer = 0.6f,
+            };
+
+            //Init traps
             _zapper = new Zapper(zapperTexture)
             {
                 Position = new Vector2(1280, 360),
-                Layer = 1f,
+                Layer = 0.63f,
             };
 
             _rocket = new Rocket(rocketTexture)
             {
                 Position = new Vector2(1280 * 2, 360),
-                Layer = 1f,
+                Layer = 0.62f,
             };
 
             _warning = new Warning(warningTexture)
             {
                 Position = new Vector2(1200, 360),
-                Layer = 1f,
+                Layer = 0.61f,
             };
 
+            //init background
             _scrollingBackgrounds = new List<ScrollingBackground>()
             {
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Floor"), _player, 60f)
                 {
-                    Layer = 0.9f,
+                    Layer = 0.4f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Front"), _player, 40f)
                 {
-                    Layer = 0.8f,
+                    Layer = 0.3f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Middle"), _player, 30f)
                 {
-                    Layer = 0.79f,
+                    Layer = 0.29f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Clouds_Fast"), _player, 25f, true)
                 {
-                    Layer = 0.78f,
+                    Layer = 0.28f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Hills_Back"), _player, 0f)
                 {
-                    Layer = 0.77f,
+                    Layer = 0.27f,
                 },
                 new ScrollingBackground(Content.Load<Texture2D>("ScrollingBackgrounds/Sky"), _player, 0f)
                 {
@@ -142,16 +196,19 @@ namespace S101_Game
             _rocket.Update(gameTime); //update Rocket
             _warning.Update(gameTime); //update warning rocket
 
-            _rocketCoefDir = ((_player.Position.Y - _rocket.Position.Y) / (_rocket.Position.X - 128 - _rocket.Position.X)) * 4; //Rocket suit le Joueur (méthode smooth)
+            //Rocket suit le Joueur (méthode smooth)
+            _rocketCoefDir = ((_player.Position.Y - _rocket.Position.Y) / (_rocket.Position.X - 128 - _rocket.Position.X)) * 4;
 
             if (_rocketCoefDir > 3) //si coef dir trop élevé: bloque à 3x
                 _rocketCoefDir = 3;
 
             _rocket.Position.Y -= _rocketCoefDir;
 
-            _warning.Position.Y = _rocket.Position.Y; //warning rocket en approche
+            //warning rocket en approche
+            _warning.Position.Y = _rocket.Position.Y;
 
-            if (_rocket.Position.X > _warning.Position.X + 100) //Avertissement rocket
+            //Avertissement rocket
+            if (_rocket.Position.X > _warning.Position.X + 100)
             {
                 _warning.Position.X = 1200;
             }
@@ -160,20 +217,31 @@ namespace S101_Game
                 _warning.Position.X = 1350;
             }
 
-            foreach (var sb in _scrollingBackgrounds) //update background
+            //update background
+            foreach (var sb in _scrollingBackgrounds)
             {
                 sb.Update(gameTime);
             }
 
+            //Intersections
             if (_player.Rectangle.Intersects(_rocket.Rectangle))
             {
 
             }
             if (_player.Rectangle.Intersects(_zapper.Rectangle))
             {
-                _rocket._initSpeed = 0;
-                _zapper._initSpeed = 0; _zapper._speedUp = 0;
+                
             }
+
+            //Sectors
+            if (gameTime.TotalGameTime.TotalSeconds <= 60) { _sectorsA.Position = new Vector2(10, 0); }
+            else if (gameTime.TotalGameTime.TotalSeconds <= 120) { _sectorsB.Position = new Vector2(10, 0); _sectorsA.Position = new Vector2(-150, 0); }
+            else if (gameTime.TotalGameTime.TotalSeconds <= 150) { _sectorsC.Position = new Vector2(10, 0); _sectorsB.Position = new Vector2(-150, 0); }
+            else if (gameTime.TotalGameTime.TotalSeconds <= 180) { _sectorsD.Position = new Vector2(10, 0); _sectorsC.Position = new Vector2(-150, 0); }
+
+
+
+            Console.WriteLine(gameTime.TotalGameTime.TotalSeconds);
 
             base.Update(gameTime);
         }
@@ -188,13 +256,19 @@ namespace S101_Game
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
 
-            _player.Draw(gameTime, spriteBatch);
+            _font.Draw(gameTime, spriteBatch);
             _zapper.Draw(gameTime, spriteBatch);
             _rocket.Draw(gameTime, spriteBatch);
             _warning.Draw(gameTime, spriteBatch);
+            _sectorsA.Draw(gameTime, spriteBatch);
+            _sectorsB.Draw(gameTime, spriteBatch);
+            _sectorsC.Draw(gameTime, spriteBatch);
+            _sectorsD.Draw(gameTime, spriteBatch);
 
-            foreach (var sb in _scrollingBackgrounds)
-                sb.Draw(gameTime, spriteBatch);
+            _player.Draw(gameTime, spriteBatch);
+
+            //foreach (var sb in _scrollingBackgrounds)
+            //    sb.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
 

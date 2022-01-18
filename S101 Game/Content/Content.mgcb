@@ -25,12 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:Boy1.png
 
-#begin Score.spritefont
+#begin fontScore.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Score.spritefont
+/build:fontScore.spritefont
 
 #begin ScrollingBackgrounds/Clouds_Fast.png
 /importer:TextureImporter
