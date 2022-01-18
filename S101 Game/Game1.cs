@@ -94,6 +94,32 @@ namespace S101_Game
                 Layer = 1f,
             };
 
+            //Init traps
+            _zapper = new Zapper(zapperTexture)
+            {
+                Position = new Vector2(1280, 360),
+                Layer = 0.63f,
+            };
+
+            _rocket = new Rocket(rocketTexture)
+            {
+                Position = new Vector2(1280 * 2, 360),
+                Layer = 0.62f,
+            };
+
+            _warning = new Warning(warningTexture)
+            {
+                Position = new Vector2(1200, 360),
+                Layer = 0.61f,
+            };
+
+            //init player
+            _player = new Player(boyTexture)
+            {
+                Position = new Vector2(50, ScreenHeight - boyTexture.Height - 60),
+                Layer = 0.6f,
+            };
+
             //Init Sectors
             _sectorsA = new Sectors(sectorA)
             {
@@ -117,32 +143,6 @@ namespace S101_Game
             {
                 Position = new Vector2(-150, 0),
                 Layer = 0.51f,
-            };
-
-            //init player
-            _player = new Player(boyTexture)
-            {
-                Position = new Vector2(50, ScreenHeight - boyTexture.Height - 60),
-                Layer = 0.6f,
-            };
-
-            //Init traps
-            _zapper = new Zapper(zapperTexture)
-            {
-                Position = new Vector2(1280, 360),
-                Layer = 0.63f,
-            };
-
-            _rocket = new Rocket(rocketTexture)
-            {
-                Position = new Vector2(1280 * 2, 360),
-                Layer = 0.62f,
-            };
-
-            _warning = new Warning(warningTexture)
-            {
-                Position = new Vector2(1200, 360),
-                Layer = 0.61f,
             };
 
             //init background
@@ -199,8 +199,8 @@ namespace S101_Game
             //Rocket suit le Joueur (méthode smooth)
             _rocketCoefDir = ((_player.Position.Y - _rocket.Position.Y) / (_rocket.Position.X - 128 - _rocket.Position.X)) * 4;
 
-            if (_rocketCoefDir > 3) //si coef dir trop élevé: bloque à 3x
-                _rocketCoefDir = 3;
+            if (_rocketCoefDir > 2) //si coef dir trop élevé: bloque à 3x
+                _rocketCoefDir = 2;
 
             _rocket.Position.Y -= _rocketCoefDir;
 
@@ -267,8 +267,8 @@ namespace S101_Game
 
             _player.Draw(gameTime, spriteBatch);
 
-            //foreach (var sb in _scrollingBackgrounds)
-            //    sb.Draw(gameTime, spriteBatch);
+            foreach (var sb in _scrollingBackgrounds)
+                sb.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
 
