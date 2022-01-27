@@ -14,6 +14,8 @@ namespace S101_Game.Sprites
         public float rotate = 0;
         public Vector2 origin;
 
+        public bool dead = false;
+
         public Rocket(Texture2D texture)
             : base(texture)
         {
@@ -28,7 +30,7 @@ namespace S101_Game.Sprites
 
             Position.Y += (float)Math.Cos(Position.X / 60) * 5; //rocket vacillante - mouvement 
 
-            if (Position.X <= - 1280 * random)
+            if (Position.X <= - 1280 * random && dead == false)
             {
                 Position.X = 1280 * 2 + _texture.Width;
             }

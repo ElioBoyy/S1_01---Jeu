@@ -32,6 +32,30 @@
 /processorParam:TextureFormat=Compressed
 /build:fontScore.spritefont
 
+#begin IDLETitle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:IDLETitle.png
+
+#begin LoadingBG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:LoadingBG.png
+
 #begin ScrollingBackgrounds/Clouds_Fast.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -175,6 +199,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sectors/SectorD.png
+
+#begin teamFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:teamFont.spritefont
 
 #begin Trap/Rocket.png
 /importer:TextureImporter

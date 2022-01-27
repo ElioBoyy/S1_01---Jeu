@@ -4,11 +4,11 @@ using System;
 
 namespace S101_Game.Sprites
 {
-    public class FontApply : Fonts
+    public class MenuFont : Fonts
     {
         public string write;
 
-        public FontApply(SpriteFont font)
+        public MenuFont(SpriteFont font)
             : base(font)
         {
         }

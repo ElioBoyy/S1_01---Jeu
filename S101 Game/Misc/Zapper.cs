@@ -15,6 +15,7 @@ namespace S101_Game.Sprites
         public Vector2 origin;
 
         public int randomPositionY = 0;
+        public bool dead = false;
 
         public Zapper(Texture2D texture)
             : base(texture)
@@ -30,7 +31,7 @@ namespace S101_Game.Sprites
 
             _initSpeed += _speedUp; //tarer la vitesse du zapper sur la vitesse du sol
 
-            if (Position.X + _texture.Width * 2 < 0) //condition reset zapper
+            if (Position.X + _texture.Width * 2 < 0 && dead == false) //condition reset zapper
             {
                 Random _random = new Random();
                 randomPositionY = _random.Next(_texture.Height / 2, 720 - _texture.Height / 2 - 60);

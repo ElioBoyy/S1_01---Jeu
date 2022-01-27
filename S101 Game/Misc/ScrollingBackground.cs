@@ -8,7 +8,7 @@ namespace S101_Game.Misc
 {
     public class ScrollingBackground : Component
     {
-        private float _speedUp = 1f;
+        public float _speedUp = 1f;
 
         private bool _constantSpeed;
 

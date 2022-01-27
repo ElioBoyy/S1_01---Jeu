@@ -17,7 +17,7 @@ namespace S101_Game
         SpriteBatch spriteBatch;
 
         public static int ScreenWidth = 1280;
-        public static int ScreenHeight = 720;
+        public static int ScreenHeight = 768;
 
         private List<ScrollingBackground> _scrollingBackgrounds;
 
@@ -44,7 +44,13 @@ namespace S101_Game
         private FontApply _font;
         private SpriteFont font;
 
+        public int scr;
+        private bool mort = false;
+        private bool mortTemp = false;
+
         public float _rocketCoefDir;
+
+        public float bestScore;
 
         public Game1()
         {
@@ -90,6 +96,7 @@ namespace S101_Game
 
             _font = new FontApply(font)
             {
+                write = $"Score: {scr}",
                 Position = new Vector2(0, 0),
                 Layer = 1f,
             };
@@ -116,32 +123,32 @@ namespace S101_Game
             //init player
             _player = new Player(boyTexture)
             {
-                Position = new Vector2(50, ScreenHeight - boyTexture.Height - 60),
+                Position = new Vector2(50, ScreenHeight - boyTexture.Height - 65),
                 Layer = 0.6f,
             };
 
             //Init Sectors
             _sectorsA = new Sectors(sectorA)
             {
-                Position = new Vector2(-150, 0),
+                Position = new Vector2(-170, 20),
                 Layer = 0.54f,
             };
 
             _sectorsB = new Sectors(sectorB)
             {
-                Position = new Vector2(-150, 0),
+                Position = new Vector2(-170, 20),
                 Layer = 0.53f,
             };
 
             _sectorsC = new Sectors(sectorC)
             {
-                Position = new Vector2(-150, 0),
+                Position = new Vector2(-170, 20),
                 Layer = 0.52f,
             };
 
             _sectorsD = new Sectors(sectorD)
             {
-                Position = new Vector2(-150, 0),
+                Position = new Vector2(-170, 20),
                 Layer = 0.51f,
             };
 
@@ -199,6 +206,8 @@ namespace S101_Game
             //Rocket suit le Joueur (méthode smooth)
             _rocketCoefDir = ((_player.Position.Y - _rocket.Position.Y) / (_rocket.Position.X - 128 - _rocket.Position.X)) * 4;
 
+            scr = (int)(gameTime.ElapsedGameTime.TotalSeconds * 3);
+
             if (_rocketCoefDir > 2) //si coef dir trop élevé: bloque à 3x
                 _rocketCoefDir = 2;
 
@@ -207,7 +216,7 @@ namespace S101_Game
             //warning rocket en approche
             _warning.Position.Y = _rocket.Position.Y;
 
-            //Avertissement rocket
+            //Avertissement rocket apparition condition
             if (_rocket.Position.X > _warning.Position.X + 100)
             {
                 _warning.Position.X = 1200;
@@ -223,25 +232,42 @@ namespace S101_Game
                 sb.Update(gameTime);
             }
 
-            //Intersections
-            if (_player.Rectangle.Intersects(_rocket.Rectangle))
-            {
 
-            }
-            if (_player.Rectangle.Intersects(_zapper.Rectangle))
+            if (mortTemp == false) //collide
+                mort = _player.Rectangle.Intersects(_rocket.Rectangle) || _player.Rectangle.Intersects(_zapper.Rectangle);
+
+            mortTemp = mort; //verif mort
+
+            //Intersections
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.Back))
+                this.Exit();                
+
+            //end section
+            if (_player.Velocity.X > 0 && mort)
             {
-                
+                _rocket.dead = true; _zapper.dead = true;
+
+                foreach (var sb in _scrollingBackgrounds)
+                    sb._speedUp -= 0.06f;
+
+                if (_player.Velocity.X <= 0)
+                {
+                    this.Exit();
+                }
+            }
+
+            //open end section
+            if ((Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.Back) || mort) && _scrollingBackgrounds[0]._speedUp <= 0)
+            {
+                using (var deadMenu = new Dead())
+                    deadMenu.Run();
             }
 
             //Sectors
-            if (gameTime.TotalGameTime.TotalSeconds <= 60) { _sectorsA.Position = new Vector2(10, 0); }
-            else if (gameTime.TotalGameTime.TotalSeconds <= 120) { _sectorsB.Position = new Vector2(10, 0); _sectorsA.Position = new Vector2(-150, 0); }
-            else if (gameTime.TotalGameTime.TotalSeconds <= 150) { _sectorsC.Position = new Vector2(10, 0); _sectorsB.Position = new Vector2(-150, 0); }
-            else if (gameTime.TotalGameTime.TotalSeconds <= 180) { _sectorsD.Position = new Vector2(10, 0); _sectorsC.Position = new Vector2(-150, 0); }
-
-
-
-            Console.WriteLine(gameTime.TotalGameTime.TotalSeconds);
+            if (gameTime.TotalGameTime.TotalSeconds <= 60) { _sectorsA.Position = new Vector2(10, 20); }
+            else if (gameTime.TotalGameTime.TotalSeconds <= 120) { _sectorsB.Position = new Vector2(10, 0); _sectorsA.Position = new Vector2(-170, 20); }
+            else if (gameTime.TotalGameTime.TotalSeconds <= 150) { _sectorsC.Position = new Vector2(10, 0); _sectorsB.Position = new Vector2(-170, 20); }
+            else if (gameTime.TotalGameTime.TotalSeconds <= 180) { _sectorsD.Position = new Vector2(10, 0); _sectorsC.Position = new Vector2(-170, 20); }
 
             base.Update(gameTime);
         }
@@ -252,7 +278,7 @@ namespace S101_Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
 

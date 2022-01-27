@@ -12,6 +12,8 @@ namespace S101_Game.Sprites
         private float _flyingSpeed = 1f;
         private float _increaser = 0.15f;
 
+        public bool dead = false;
+
         public Player(Texture2D texture)
             : base(texture)
         {
@@ -21,15 +23,15 @@ namespace S101_Game.Sprites
         {
             float jetpackPower = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (Position.Y >= 594) { Math.Abs(_flyingSpeed); _flyingSpeed = 1f; } //Reset sol
+            if (Position.Y >= 651) { Math.Abs(_flyingSpeed); _flyingSpeed = 1f; } //Reset sol
 
             Velocity.X = 1F;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                if (Position.Y <= 0)
+                if (Position.Y <= 50)
                 {
-                    Position.Y = 0.1f; //bornage
+                    Position.Y = 50.1f; //bornage
                     _flyingSpeed = 0f;
                 }
                 else
@@ -40,15 +42,15 @@ namespace S101_Game.Sprites
             }
             else
             {
-                if (Position.Y <= 595)
+                if (Position.Y <= 651)
                 {
                     Position.Y -= _flyingSpeed;
                     _flyingSpeed -= _increaser * 3; //Gravité, n* le coef de poussée (augmente avec le temps | peut être constant avec un réel)
                 }
-                else { Position.Y = 602; }
-                if (Position.Y <= 0)
+                else Position.Y = 651;
+                if (Position.Y <= 50)
                 {
-                    Position.Y = 0.1f; //bornage
+                    Position.Y = 50.1f; //bornage
                     _flyingSpeed = 0f;
                 }
             }
